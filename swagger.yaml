@@ -1,0 +1,350 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Investbrain API",
+    "description" : "Investbrain is a smart open-source investment tracker that consolidates and monitors market performance across your different brokerages.",
+    "termsOfService" : "https://investbra.in/terms",
+    "contact" : {
+      "name" : "GitHub",
+      "url" : "https://github.com/investbrainapp/investbrain"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "tags" : [ {
+    "name" : "Portfolios",
+    "description" : ""
+  }, {
+    "name" : "Transactions",
+    "description" : ""
+  }, {
+    "name" : "Holdings",
+    "description" : ""
+  } ],
+  "paths" : {
+    "/transaction" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Retrieve a list of your transactions",
+        "responses" : {
+          "200" : {
+            "description" : "List of transactions matching the filter criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Transaction"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Create a new transaction",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created transaction",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transaction/{id}" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Retrieve a single transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Transaction matching the provided ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Update a transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated transaction",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Delete a transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Transaction successfully deleted"
+          }
+        }
+      }
+    },
+    "/portfolio" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a list of your portfolios",
+        "responses" : {
+          "200" : {
+            "description" : "search results matching criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Portfolio"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Create a new portfolio",
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/portfolio/{id}" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a single portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Portfolio matching the provided ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Update a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Delete a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Portfolio successfully deleted"
+          }
+        }
+      }
+    },
+    "/holding" : {
+      "get" : {
+        "tags" : [ "Holdings" ],
+        "summary" : "Retrieve a list of your holdings",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "test",
+          "in" : "query",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "item created"
+          },
+          "400" : {
+            "description" : "invalid input, object invalid"
+          },
+          "409" : {
+            "description" : "an existing item already exists"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Portfolio" : {
+        "required" : [ "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "example" : "My Investments"
+          }
+        }
+      },
+      "Transaction" : {
+        "required" : [ "symbol" ],
+        "type" : "object",
+        "properties" : {
+          "symbol" : {
+            "type" : "string",
+            "example" : "AAPL"
+          }
+        }
+      },
+      "Holding" : {
+        "required" : [ "symbol" ],
+        "type" : "object",
+        "properties" : {
+          "symbol" : {
+            "type" : "string",
+            "example" : "AAPL"
+          },
+          "transactions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Transaction"
+            }
+          }
+        }
+      }
+    }
+  }
+}
