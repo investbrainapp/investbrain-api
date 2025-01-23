@@ -1,19 +1,19 @@
 {
   "openapi" : "3.0.0",
+  "servers" : [ {
+    "description" : "SwaggerHub API Auto Mocking",
+    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0"
+  } ],
   "info" : {
+    "version" : "1.0.0",
     "title" : "Investbrain API",
     "description" : "Investbrain is a smart open-source investment tracker that consolidates and monitors market performance across your different brokerages.",
     "termsOfService" : "https://investbra.in/terms",
     "contact" : {
-      "name" : "GitHub",
-      "url" : "https://github.com/investbrainapp/investbrain"
-    },
-    "version" : "1.0.0"
+      "url" : "https://github.com/investbrainapp/investbrain",
+      "name" : "GitHub"
+    }
   },
-  "servers" : [ {
-    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0",
-    "description" : "SwaggerHub API Auto Mocking"
-  } ],
   "tags" : [ {
     "name" : "Portfolios",
     "description" : ""
@@ -49,14 +49,14 @@
         "tags" : [ "Transactions" ],
         "summary" : "Create a new transaction",
         "requestBody" : {
+          "required" : true,
           "content" : {
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Transaction"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "201" : {
@@ -73,21 +73,19 @@
       }
     },
     "/transaction/{id}" : {
+      "parameters" : [ {
+        "name" : "id",
+        "in" : "path",
+        "required" : true,
+        "description" : "Unique ID of the transaction",
+        "schema" : {
+          "type" : "string",
+          "format" : "uuid"
+        }
+      } ],
       "get" : {
         "tags" : [ "Transactions" ],
         "summary" : "Retrieve a single transaction",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the transaction",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "responses" : {
           "200" : {
             "description" : "Transaction matching the provided ID",
@@ -104,27 +102,15 @@
       "put" : {
         "tags" : [ "Transactions" ],
         "summary" : "Update a transaction",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the transaction",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "requestBody" : {
+          "required" : true,
           "content" : {
             "application/json" : {
               "schema" : {
                 "$ref" : "#/components/schemas/Transaction"
               }
             }
-          },
-          "required" : true
+          }
         },
         "responses" : {
           "200" : {
@@ -142,18 +128,6 @@
       "delete" : {
         "tags" : [ "Transactions" ],
         "summary" : "Delete a transaction",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the transaction",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "responses" : {
           "204" : {
             "description" : "Transaction successfully deleted"
@@ -199,21 +173,19 @@
       }
     },
     "/portfolio/{id}" : {
+      "parameters" : [ {
+        "name" : "id",
+        "in" : "path",
+        "required" : true,
+        "description" : "Unique ID of the portfolio",
+        "schema" : {
+          "type" : "string",
+          "format" : "uuid"
+        }
+      } ],
       "get" : {
         "tags" : [ "Portfolios" ],
         "summary" : "Retrieve a single portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "responses" : {
           "200" : {
             "description" : "Portfolio matching the provided ID",
@@ -230,18 +202,6 @@
       "put" : {
         "tags" : [ "Portfolios" ],
         "summary" : "Update a portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "responses" : {
           "200" : {
             "description" : "Returns the updated portfolio",
@@ -258,18 +218,6 @@
       "delete" : {
         "tags" : [ "Portfolios" ],
         "summary" : "Delete a portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
         "responses" : {
           "204" : {
             "description" : "Portfolio successfully deleted"
@@ -283,12 +231,10 @@
         "summary" : "Retrieve a list of your holdings",
         "description" : "",
         "parameters" : [ {
-          "name" : "test",
           "in" : "query",
+          "name" : "test",
           "description" : "pass an optional search string for looking up inventory",
           "required" : false,
-          "style" : "form",
-          "explode" : true,
           "schema" : {
             "type" : "string"
           }
@@ -310,8 +256,8 @@
   "components" : {
     "schemas" : {
       "Portfolio" : {
-        "required" : [ "title" ],
         "type" : "object",
+        "required" : [ "title" ],
         "properties" : {
           "title" : {
             "type" : "string",
@@ -320,8 +266,8 @@
         }
       },
       "Transaction" : {
-        "required" : [ "symbol" ],
         "type" : "object",
+        "required" : [ "symbol" ],
         "properties" : {
           "symbol" : {
             "type" : "string",
@@ -330,8 +276,8 @@
         }
       },
       "Holding" : {
-        "required" : [ "symbol" ],
         "type" : "object",
+        "required" : [ "symbol" ],
         "properties" : {
           "symbol" : {
             "type" : "string",
@@ -344,6 +290,12 @@
             }
           }
         }
+      }
+    },
+    "securitySchemes" : {
+      "personal_access_token" : {
+        "type" : "http",
+        "scheme" : "bearer"
       }
     }
   }
