@@ -1,0 +1,669 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Investbrain API",
+    "description" : "Investbrain is a smart open-source investment tracker that consolidates and monitors market performance across your different brokerages.",
+    "termsOfService" : "https://investbra.in/terms",
+    "contact" : {
+      "name" : "GitHub",
+      "url" : "https://github.com/investbrainapp/investbrain"
+    },
+    "version" : "1.0.0"
+  },
+  "servers" : [ {
+    "url" : "https://investbra.in/api",
+    "description" : "Investbrain Cloud API"
+  }, {
+    "url" : "https://{base_url}/api",
+    "description" : "Self-hosted Investbrain API",
+    "variables" : {
+      "base_url" : {
+        "description" : "Location of your self-hosted Investbrain instance",
+        "default" : "localhost:8000"
+      }
+    }
+  }, {
+    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0",
+    "description" : "SwaggerHub API Auto Mocking"
+  } ],
+  "security" : [ {
+    "personal_access_token" : [ ]
+  } ],
+  "tags" : [ {
+    "name" : "Portfolios",
+    "description" : ""
+  }, {
+    "name" : "Transactions",
+    "description" : ""
+  }, {
+    "name" : "Holdings",
+    "description" : ""
+  }, {
+    "name" : "User",
+    "description" : ""
+  } ],
+  "paths" : {
+    "/me" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Currently authenticated user's profile information",
+        "responses" : {
+          "200" : {
+            "description" : "User's profile information",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/transaction" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Retrieve a paginated list of your transactions",
+        "responses" : {
+          "200" : {
+            "description" : "List of transactions matching the provided filter criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_1"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Create a new transaction",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created transaction",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/transaction/{id}" : {
+      "get" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Retrieve a single transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Transaction matching the provided ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Update a transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Transaction"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated transaction",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Transaction"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Transactions" ],
+        "summary" : "Delete a transaction",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the transaction",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Transaction successfully deleted"
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/portfolio" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a paginated list of your portfolios",
+        "responses" : {
+          "200" : {
+            "description" : "List of portfolios matching the provided filter criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_2"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Create a new portfolio",
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/portfolio/{id}" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a single portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Portfolio matching the provided ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Update a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Delete a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Portfolio successfully deleted"
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "403" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "404" : {
+            "description" : "Requested resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/holding" : {
+      "get" : {
+        "tags" : [ "Holdings" ],
+        "summary" : "Retrieve a paginated list of your holdings",
+        "description" : "",
+        "parameters" : [ {
+          "name" : "test",
+          "in" : "query",
+          "description" : "pass an optional search string for looking up inventory",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of holdings matching the provided filter criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200_3"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Personal access token is missing or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Portfolio" : {
+        "required" : [ "title" ],
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string",
+            "example" : "My Investments"
+          },
+          "created_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Transaction" : {
+        "required" : [ "symbol" ],
+        "type" : "object",
+        "properties" : {
+          "symbol" : {
+            "type" : "string",
+            "example" : "AAPL"
+          },
+          "created_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "Holding" : {
+        "required" : [ "symbol" ],
+        "type" : "object",
+        "properties" : {
+          "symbol" : {
+            "type" : "string",
+            "example" : "AAPL"
+          },
+          "transactions" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/Transaction"
+            }
+          }
+        }
+      },
+      "Paginated" : {
+        "type" : "object",
+        "properties" : {
+          "data" : {
+            "type" : "array",
+            "items" : { }
+          },
+          "links" : {
+            "$ref" : "#/components/schemas/Paginated_links"
+          },
+          "meta" : {
+            "$ref" : "#/components/schemas/Paginated_meta"
+          }
+        },
+        "x-internal" : true
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string",
+            "format" : "uuid"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "email" : {
+            "type" : "string",
+            "format" : "email"
+          },
+          "profile_photo_path" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          },
+          "created_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "updated_at" : {
+            "type" : "string",
+            "format" : "date-time"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Paginated"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "data" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Transaction"
+              }
+            }
+          }
+        } ]
+      },
+      "inline_response_200_2" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Paginated"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "data" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Portfolio"
+              }
+            }
+          }
+        } ]
+      },
+      "inline_response_200_3" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Paginated"
+        }, {
+          "type" : "object",
+          "properties" : {
+            "data" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/components/schemas/Holding"
+              }
+            }
+          }
+        } ]
+      },
+      "Paginated_links" : {
+        "type" : "object",
+        "properties" : {
+          "first" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          },
+          "last" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          },
+          "next" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          },
+          "prev" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          }
+        }
+      },
+      "Paginated_meta" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string",
+            "format" : "url",
+            "example" : "https://..."
+          },
+          "current_page" : {
+            "type" : "integer",
+            "example" : 1
+          },
+          "last_page" : {
+            "type" : "integer",
+            "example" : 5
+          },
+          "per_page" : {
+            "type" : "integer",
+            "example" : 10
+          },
+          "total" : {
+            "type" : "integer",
+            "example" : 50
+          }
+        }
+      }
+    },
+    "responses" : {
+      "UnauthenticatedError" : {
+        "description" : "Personal access token is missing or invalid"
+      },
+      "UnauthorizedError" : {
+        "description" : "Personal access token is missing or invalid"
+      },
+      "NotFoundError" : {
+        "description" : "Requested resource not found"
+      },
+      "ServerError" : {
+        "description" : "Server error"
+      }
+    },
+    "securitySchemes" : {
+      "personal_access_token" : {
+        "type" : "http",
+        "scheme" : "bearer"
+      }
+    }
+  }
+}
