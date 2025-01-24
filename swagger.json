@@ -1,6 +1,7 @@
 {
   "openapi" : "3.0.0",
   "info" : {
+
     "title" : "Investbrain API",
     "description" : "Investbrain is a smart open-source investment tracker that consolidates and monitors market performance across your different brokerages.",
     "termsOfService" : "https://investbra.in/terms",
@@ -29,6 +30,7 @@
   "security" : [ {
     "personal_access_token" : [ ]
   } ],
+
   "tags" : [ {
     "name" : "Portfolios",
     "description" : ""
@@ -87,6 +89,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -102,6 +105,7 @@
             }
           },
           "required" : true
+
         },
         "responses" : {
           "201" : {
@@ -122,6 +126,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       }
@@ -142,6 +147,7 @@
             "format" : "uuid"
           }
         } ],
+
         "responses" : {
           "200" : {
             "description" : "Transaction matching the provided ID",
@@ -164,6 +170,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -183,6 +190,7 @@
           }
         } ],
         "requestBody" : {
+
           "content" : {
             "application/json" : {
               "schema" : {
@@ -191,6 +199,7 @@
             }
           },
           "required" : true
+
         },
         "responses" : {
           "200" : {
@@ -214,6 +223,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -247,6 +257,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       }
@@ -271,6 +282,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -293,6 +305,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       }
@@ -313,6 +326,7 @@
             "format" : "uuid"
           }
         } ],
+
         "responses" : {
           "200" : {
             "description" : "Portfolio matching the provided ID",
@@ -335,6 +349,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -353,6 +368,7 @@
             "format" : "uuid"
           }
         } ],
+
         "responses" : {
           "200" : {
             "description" : "Returns the updated portfolio",
@@ -375,6 +391,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       },
@@ -408,6 +425,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       }
@@ -424,6 +442,7 @@
           "required" : false,
           "style" : "form",
           "explode" : true,
+
           "schema" : {
             "type" : "string"
           }
@@ -444,6 +463,7 @@
           },
           "500" : {
             "description" : "Server error"
+
           }
         }
       }
@@ -454,6 +474,7 @@
       "Portfolio" : {
         "required" : [ "title" ],
         "type" : "object",
+
         "properties" : {
           "title" : {
             "type" : "string",
@@ -466,12 +487,14 @@
           "updated_at" : {
             "type" : "string",
             "format" : "date-time"
+
           }
         }
       },
       "Transaction" : {
         "required" : [ "symbol" ],
         "type" : "object",
+
         "properties" : {
           "symbol" : {
             "type" : "string",
@@ -484,12 +507,14 @@
           "updated_at" : {
             "type" : "string",
             "format" : "date-time"
+
           }
         }
       },
       "Holding" : {
         "required" : [ "symbol" ],
         "type" : "object",
+
         "properties" : {
           "symbol" : {
             "type" : "string",
@@ -657,6 +682,7 @@
       },
       "ServerError" : {
         "description" : "Server error"
+
       }
     },
     "securitySchemes" : {
