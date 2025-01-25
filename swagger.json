@@ -11,6 +11,9 @@
     "version" : "1.0.0"
   },
   "servers" : [ {
+    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0",
+    "description" : "API Auto Mocking"
+  }, {
     "url" : "https://investbra.in/api",
     "description" : "Investbrain Cloud API"
   }, {
@@ -22,9 +25,6 @@
         "default" : "localhost:8000"
       }
     }
-  }, {
-    "url" : "https://virtserver.swaggerhub.com/investbrain/investbrain/1.0.0",
-    "description" : "SwaggerHub API Auto Mocking"
   } ],
   "security" : [ {
     "api_token" : [ ]
@@ -46,6 +46,253 @@
     "description" : ""
   } ],
   "paths" : {
+    "/portfolio" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a paginated list of your portfolios",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "description" : "The requested page number",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 1
+          }
+        }, {
+          "name" : "itemsPerPage",
+          "in" : "query",
+          "description" : "The number of items to include per page",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer",
+            "default" : 10
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "description" : "The column used to sort the results",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sortDesc",
+          "in" : "query",
+          "description" : "Whether to sort the column in descending order",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "search",
+          "in" : "query",
+          "description" : "The search string searches multiple columns depending on schema",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "filter[]",
+          "in" : "query",
+          "description" : "Filter the results on the value of schema's columns",
+          "required" : false,
+          "style" : "deepObject",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "default" : "[]"
+          },
+          "example" : "?filter[color]=blue,green,red"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "List of portfolios matching the provided filter criteria",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Create a new portfolio",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/portfolio_body"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Returns the newly created portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/portfolio/{id}" : {
+      "get" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Retrieve a single portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Portfolio matching the provided ID",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "403" : {
+            "description" : "Action not permitted"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Update a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Portfolio"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated portfolio",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Portfolio"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "403" : {
+            "description" : "Action not permitted"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Portfolios" ],
+        "summary" : "Delete a portfolio",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "Portfolio successfully deleted"
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "403" : {
+            "description" : "Action not permitted"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
     "/transaction" : {
       "get" : {
         "tags" : [ "Transactions" ],
@@ -111,7 +358,8 @@
           "style" : "deepObject",
           "explode" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "default" : "[]"
           },
           "example" : "?filter[color]=blue,green,red"
         } ],
@@ -121,7 +369,7 @@
             "content" : {
               "application/json" : {
                 "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200"
+                  "$ref" : "#/components/schemas/inline_response_200_1"
                 }
               }
             }
@@ -141,7 +389,7 @@
           "content" : {
             "application/json" : {
               "schema" : {
-                "$ref" : "#/components/schemas/Transaction"
+                "$ref" : "#/components/schemas/transaction_body"
               }
             }
           },
@@ -295,232 +543,6 @@
         }
       }
     },
-    "/portfolio" : {
-      "get" : {
-        "tags" : [ "Portfolios" ],
-        "summary" : "Retrieve a paginated list of your portfolios",
-        "parameters" : [ {
-          "name" : "page",
-          "in" : "query",
-          "description" : "The requested page number",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer",
-            "default" : 1
-          }
-        }, {
-          "name" : "itemsPerPage",
-          "in" : "query",
-          "description" : "The number of items to include per page",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "integer",
-            "default" : 10
-          }
-        }, {
-          "name" : "sortBy",
-          "in" : "query",
-          "description" : "The column used to sort the results",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "sortDesc",
-          "in" : "query",
-          "description" : "Whether to sort the column in descending order",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "boolean",
-            "default" : false
-          }
-        }, {
-          "name" : "search",
-          "in" : "query",
-          "description" : "The search string searches multiple columns depending on schema",
-          "required" : false,
-          "style" : "form",
-          "explode" : true,
-          "schema" : {
-            "type" : "string"
-          }
-        }, {
-          "name" : "filter[]",
-          "in" : "query",
-          "description" : "Filter the results on the value of schema's columns",
-          "required" : false,
-          "style" : "deepObject",
-          "explode" : false,
-          "schema" : {
-            "type" : "string"
-          },
-          "example" : "?filter[color]=blue,green,red"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "List of portfolios matching the provided filter criteria",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/inline_response_200_1"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Token not provided or invalid"
-          },
-          "500" : {
-            "description" : "Server error"
-          }
-        }
-      },
-      "post" : {
-        "tags" : [ "Portfolios" ],
-        "summary" : "Create a new portfolio",
-        "responses" : {
-          "201" : {
-            "description" : "Returns the newly created portfolio",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Portfolio"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Token not provided or invalid"
-          },
-          "500" : {
-            "description" : "Server error"
-          }
-        }
-      }
-    },
-    "/portfolio/{id}" : {
-      "get" : {
-        "tags" : [ "Portfolios" ],
-        "summary" : "Retrieve a single portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Portfolio matching the provided ID",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Portfolio"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Token not provided or invalid"
-          },
-          "403" : {
-            "description" : "Action not permitted"
-          },
-          "404" : {
-            "description" : "Resource not found"
-          },
-          "500" : {
-            "description" : "Server error"
-          }
-        }
-      },
-      "put" : {
-        "tags" : [ "Portfolios" ],
-        "summary" : "Update a portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Returns the updated portfolio",
-            "content" : {
-              "application/json" : {
-                "schema" : {
-                  "$ref" : "#/components/schemas/Portfolio"
-                }
-              }
-            }
-          },
-          "401" : {
-            "description" : "Token not provided or invalid"
-          },
-          "403" : {
-            "description" : "Action not permitted"
-          },
-          "404" : {
-            "description" : "Resource not found"
-          },
-          "500" : {
-            "description" : "Server error"
-          }
-        }
-      },
-      "delete" : {
-        "tags" : [ "Portfolios" ],
-        "summary" : "Delete a portfolio",
-        "parameters" : [ {
-          "name" : "id",
-          "in" : "path",
-          "description" : "Unique ID of the portfolio",
-          "required" : true,
-          "style" : "simple",
-          "explode" : false,
-          "schema" : {
-            "type" : "string",
-            "format" : "uuid"
-          }
-        } ],
-        "responses" : {
-          "204" : {
-            "description" : "Portfolio successfully deleted"
-          },
-          "401" : {
-            "description" : "Token not provided or invalid"
-          },
-          "403" : {
-            "description" : "Action not permitted"
-          },
-          "404" : {
-            "description" : "Resource not found"
-          },
-          "500" : {
-            "description" : "Server error"
-          }
-        }
-      }
-    },
     "/holding" : {
       "get" : {
         "tags" : [ "Holdings" ],
@@ -587,7 +609,8 @@
           "style" : "deepObject",
           "explode" : false,
           "schema" : {
-            "type" : "string"
+            "type" : "string",
+            "default" : "[]"
           },
           "example" : "?filter[color]=blue,green,red"
         } ],
@@ -604,6 +627,69 @@
           },
           "401" : {
             "description" : "Token not provided or invalid"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      }
+    },
+    "/holding/{portfolio-id}/{symbol}" : {
+      "put" : {
+        "tags" : [ "Holdings" ],
+        "summary" : "Configure options for a specific holding",
+        "parameters" : [ {
+          "name" : "portfolio-id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "symbol",
+          "in" : "path",
+          "description" : "Ticker symbol",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "AAPL"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Holding"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Returns the updated holding",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Holding"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "403" : {
+            "description" : "Action not permitted"
+          },
+          "404" : {
+            "description" : "Resource not found"
           },
           "500" : {
             "description" : "Server error"
@@ -680,7 +766,8 @@
         "properties" : {
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "readOnly" : true
           },
           "name" : {
             "type" : "string",
@@ -690,28 +777,31 @@
             "type" : "string",
             "format" : "email"
           },
-          "profile_photo_path" : {
+          "profile_photo_url" : {
             "type" : "string",
             "format" : "url",
+            "readOnly" : true,
             "example" : "https://..."
           },
           "created_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "updated_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           }
         }
       },
       "Portfolio" : {
-        "required" : [ "title" ],
         "type" : "object",
         "properties" : {
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "readOnly" : true
           },
           "title" : {
             "type" : "string",
@@ -721,37 +811,46 @@
             "type" : "boolean"
           },
           "owner" : {
-            "$ref" : "#/components/schemas/User"
+            "allOf" : [ {
+              "$ref" : "#/components/schemas/User"
+            }, {
+              "type" : "object",
+              "readOnly" : true
+            } ]
           },
           "transactions" : {
             "type" : "array",
+            "readOnly" : true,
             "items" : {
               "$ref" : "#/components/schemas/Transaction"
             }
           },
           "holdings" : {
             "type" : "array",
+            "readOnly" : true,
             "items" : {
               "$ref" : "#/components/schemas/Holding"
             }
           },
           "created_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "updated_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           }
         }
       },
       "Transaction" : {
-        "required" : [ "symbol" ],
         "type" : "object",
         "properties" : {
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "readOnly" : true
           },
           "symbol" : {
             "type" : "string",
@@ -792,152 +891,185 @@
           },
           "created_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "updated_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           }
         }
       },
       "Holding" : {
-        "required" : [ "symbol" ],
         "type" : "object",
         "properties" : {
           "id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "readOnly" : true
           },
           "portfolio_id" : {
             "type" : "string",
-            "format" : "uuid"
+            "format" : "uuid",
+            "readOnly" : true
           },
           "symbol" : {
-            "type" : "string"
+            "type" : "string",
+            "readOnly" : true,
+            "example" : "AAPL"
           },
           "quantity" : {
             "type" : "number",
+            "readOnly" : true,
             "example" : 5
           },
           "reinvest_dividends" : {
-            "type" : "boolean"
+            "type" : "boolean",
+            "example" : false
           },
           "average_cost_basis" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 238.92
           },
           "total_cost_basis" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 1194.6
           },
           "realized_gain_dollars" : {
             "type" : "number",
+            "readOnly" : true,
             "example" : 0
           },
           "dividends_earned" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 1.4
           },
           "splits_synced_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "total_market_value" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 9072.36
           },
           "market_gain_dollars" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 7877.76
           },
           "market_gain_percent" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 85.75
           },
           "created_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "updated_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           }
-        }
+        },
+        "readOnly" : true
       },
       "MarketData" : {
         "type" : "object",
         "properties" : {
           "symbol" : {
             "type" : "string",
+            "readOnly" : true,
             "example" : "AAPL"
           },
           "name" : {
             "type" : "string",
+            "readOnly" : true,
             "example" : "Apple Inc."
           },
           "market_value" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 221.46
           },
           "fifty_two_week_low" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 164.08
           },
           "fifty_two_week_high" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 260.1
           },
           "last_dividend_date" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "last_dividend_amount" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 0.25
           },
           "dividend_yield" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 0.426124
           },
           "market_cap" : {
             "type" : "integer",
+            "readOnly" : true,
             "example" : 3330293366784
           },
           "trailing_pe" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 36.4843
           },
           "forward_pe" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 26.6498
           },
           "book_value" : {
             "type" : "number",
             "format" : "float",
+            "readOnly" : true,
             "example" : 3.767
           },
           "created_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           },
           "updated_at" : {
             "type" : "string",
-            "format" : "date-time"
+            "format" : "date-time",
+            "readOnly" : true
           }
-        }
+        },
+        "readOnly" : true
       },
       "Paginated" : {
         "type" : "object",
@@ -964,10 +1096,18 @@
             "data" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/components/schemas/Transaction"
+                "$ref" : "#/components/schemas/Portfolio"
               }
             }
           }
+        } ]
+      },
+      "portfolio_body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Portfolio"
+        }, {
+          "required" : [ "title" ],
+          "type" : "object"
         } ]
       },
       "inline_response_200_1" : {
@@ -979,10 +1119,31 @@
             "data" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/components/schemas/Portfolio"
+                "$ref" : "#/components/schemas/Transaction"
               }
             }
           }
+        } ]
+      },
+      "transaction_body" : {
+        "allOf" : [ {
+          "$ref" : "#/components/schemas/Transaction"
+        }, {
+          "required" : [ "date", "portfolio_id", "quantity", "symbol", "transaction_type" ],
+          "type" : "object",
+          "oneOf" : [ {
+            "properties" : {
+              "cost_basis" : {
+                "type" : "number"
+              }
+            }
+          }, {
+            "properties" : {
+              "sale_price" : {
+                "type" : "number"
+              }
+            }
+          } ]
         } ]
       },
       "inline_response_200_2" : {
@@ -1133,7 +1294,8 @@
         "style" : "deepObject",
         "explode" : false,
         "schema" : {
-          "type" : "string"
+          "type" : "string",
+          "default" : "[]"
         },
         "example" : "?filter[color]=blue,green,red"
       }
