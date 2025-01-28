@@ -111,10 +111,8 @@
           "style" : "deepObject",
           "explode" : false,
           "schema" : {
-            "type" : "string",
-            "default" : "[]"
-          },
-          "example" : "?filter[color]=blue,green,red"
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -358,10 +356,8 @@
           "style" : "deepObject",
           "explode" : false,
           "schema" : {
-            "type" : "string",
-            "default" : "[]"
-          },
-          "example" : "?filter[color]=blue,green,red"
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -609,10 +605,8 @@
           "style" : "deepObject",
           "explode" : false,
           "schema" : {
-            "type" : "string",
-            "default" : "[]"
-          },
-          "example" : "?filter[color]=blue,green,red"
+            "type" : "string"
+          }
         } ],
         "responses" : {
           "200" : {
@@ -635,6 +629,54 @@
       }
     },
     "/holding/{portfolio-id}/{symbol}" : {
+      "get" : {
+        "tags" : [ "Holdings" ],
+        "summary" : "Retrieve a specific holding",
+        "parameters" : [ {
+          "name" : "portfolio-id",
+          "in" : "path",
+          "description" : "Unique ID of the portfolio",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "format" : "uuid"
+          }
+        }, {
+          "name" : "symbol",
+          "in" : "path",
+          "description" : "Ticker symbol",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "string",
+            "example" : "AAPL"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns the holding",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Holding"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Token not provided or invalid"
+          },
+          "404" : {
+            "description" : "Resource not found"
+          },
+          "500" : {
+            "description" : "Server error"
+          }
+        }
+      },
       "put" : {
         "tags" : [ "Holdings" ],
         "summary" : "Configure options for a specific holding",
@@ -806,6 +848,10 @@
           "title" : {
             "type" : "string",
             "example" : "My Investments"
+          },
+          "notes" : {
+            "type" : "string",
+            "example" : ""
           },
           "wishlist" : {
             "type" : "boolean"
@@ -1294,10 +1340,8 @@
         "style" : "deepObject",
         "explode" : false,
         "schema" : {
-          "type" : "string",
-          "default" : "[]"
-        },
-        "example" : "?filter[color]=blue,green,red"
+          "type" : "string"
+        }
       }
     },
     "securitySchemes" : {
